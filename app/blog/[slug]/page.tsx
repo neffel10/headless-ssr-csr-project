@@ -1,6 +1,6 @@
 // src/app/blog/[slug]/page.tsx
 
-import DOMPurify from 'isomorphic-dompurify';
+import sanitizeHtml from 'sanitize-html';
 import Link from 'next/link';
 
 interface PageProps {
@@ -36,7 +36,7 @@ export default async function PostPage(props: { params: Promise<{ slug: string }
   }
 
   // Sanitizamos el contenido completo
-  const sanitizedContent = DOMPurify.sanitize(post.content.rendered);
+  const sanitizedContent = sanitizeHtml(post.content.rendered);
 
   return (
     <main className="min-h-screen bg-slate-50 py-12 px-6">

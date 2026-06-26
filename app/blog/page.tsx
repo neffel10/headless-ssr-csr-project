@@ -1,6 +1,6 @@
 // src/app/blog/page.tsx
 
-import DOMPurify from 'isomorphic-dompurify';
+import sanitizeHtml from 'sanitize-html';
 // 1. Importamos un nuevo componente contenedor que manejará el estado del filtro
 import BlogClientWrapper from '../components/BlogClientWrapper'; 
 
@@ -20,11 +20,11 @@ export default async function HomePage() {
   const rawPosts: Post[] = await response.json();
 
   const sanitizedPosts = rawPosts.map(post => ({
-    ...post,
-    excerpt: {
-      rendered: DOMPurify.sanitize(post.excerpt.rendered)
-    }
-  }));
+  ...post,
+  excerpt: {
+    rendered: sanitizeHtml(post.excerpt.rendered)
+  }
+}));
 
   return (
     <main className="min-h-screen bg-slate-50 max-w-7xl mx-auto p-6 md:p-10">
