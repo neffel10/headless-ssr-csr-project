@@ -1,3 +1,4 @@
+// next.config.ts
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
@@ -6,9 +7,19 @@ const nextConfig: NextConfig = {
       {
         source: '/',
         destination: '/blog',
-        permanent: true, // Esto le dice a Google que la página principal ahora es /blog (bueno para SEO)
+        permanent: true,
       },
     ];
+  },
+  // AGREGA ESTA CONFIGURACIÓN:
+  images: {
+    //unoptimized: true, //AÑADE ESTO TEMPORALMENTE para local errors
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'espaciopsicologico.mx', // El dominio de tu WordPress
+      },
+    ],
   },
 };
 

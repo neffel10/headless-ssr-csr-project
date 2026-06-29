@@ -13,7 +13,7 @@ interface Post {
 
 export default async function HomePage() {
   // El fetch sigue ocurriendo en el servidor de forma óptima
-  const response = await fetch("https://espaciopsicologico.mx/wp-json/wp/v2/posts", {
+  const response = await fetch("https://espaciopsicologico.mx/wp-json/wp/v2/posts?_embed", {
     next: { revalidate: 60 } 
   });
   
