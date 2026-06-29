@@ -55,7 +55,7 @@ export default function BlogClientWrapper({ initialPosts }: { initialPosts: Post
                       src={featuredImage}
                       alt={altText}
                       fill // Hace que la imagen llene el contenedor relativo
-                      sizes="(max-width: 768px) 100vw, 50vw"
+                      sizes="(max-width: 768px) 100vw, 384px"
                       className="object-cover hover:scale-105 transition-transform duration-500"
                       priority={post.id === initialPosts[0]?.id} // Optimiza la carga de la primera imagen (LCP)
                     />
@@ -74,7 +74,7 @@ export default function BlogClientWrapper({ initialPosts }: { initialPosts: Post
 
                   <div className="mt-auto pt-4 border-t border-slate-100">
                     <Link 
-                      href={`/blog/${post.id}`} 
+                      href={`/blog/${post.slug}`} 
                       className="text-sm font-medium text-sky-700 hover:text-sky-900 transition"
                     >
                       Leer más →
