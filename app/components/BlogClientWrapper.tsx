@@ -6,8 +6,8 @@ import Link from 'next/link';
 import SearchBox from './SearchBox';
 import Image from 'next/image';
 
-
-// Actualizamos la interfaz para aceptar los datos embebidos de la imagen de WordPress
+// Importing the Post interface to ensure type safety for the posts being passed down
+// Update interface to accept embedded image data from WordPress
 interface Post {
   id: number;
   title: { rendered: string };
@@ -21,8 +21,9 @@ interface Post {
   };
 }
 
+// This component is responsible for rendering the list of blog posts and handling the search functionality
 export default function BlogClientWrapper({ initialPosts }: { initialPosts: Post[] }) {
-  const [filteredPosts, setFilteredPosts] = useState<Post[]>(initialPosts);
+const [filteredPosts, setFilteredPosts] = useState<Post[]>(initialPosts);
 
   const handleSearch = (searchTerm: string) => {
     const lowerCaseTerm = searchTerm.toLowerCase();
@@ -32,6 +33,7 @@ export default function BlogClientWrapper({ initialPosts }: { initialPosts: Post
     setFilteredPosts(filtered);
   };
 
+  // Render the search box and the list of filtered posts
   return (
     <>
       <SearchBox onSearch={handleSearch} />
@@ -39,29 +41,32 @@ export default function BlogClientWrapper({ initialPosts }: { initialPosts: Post
       <div className="grid gap-8 grid-cols-1 md:grid-cols-2">
         {filteredPosts.length > 0 ? (
           filteredPosts.map((post) => {
-            // 2. Extraemos de forma segura la URL de la imagen destacada
+
+            // Extract featured image and alt text safely
             const featuredImage = post._embedded?.['wp:featuredmedia']?.[0]?.source_url;
             const altText = post._embedded?.['wp:featuredmedia']?.[0]?.alt_text || post.title.rendered;
 
+            // Render each post with its title, excerpt, and a link to the full article
             return (
               <article 
                 key={post.id} 
                 className="overflow-hidden bg-white rounded-3xl shadow-sm border border-slate-100 hover:shadow-lg transition-shadow duration-300 flex flex-col"
               >
-                {/* 3. Renderizado Condicional de la Imagen Destacada */}
+                {/* 3. Conditional Rendering of the Featured Image */}
                 {featuredImage && (
                   <div className="relative w-full h-48 md:h-56 bg-slate-100">
                     <Image
                       src={featuredImage}
                       alt={altText}
-                      fill // Hace que la imagen llene el contenedor relativo
+                      fill // Makes the image fill the parent container
                       sizes="(max-width: 768px) 100vw, 384px"
                       className="object-cover hover:scale-105 transition-transform duration-500"
-                      priority={post.id === initialPosts[0]?.id} // Optimiza la carga de la primera imagen (LCP)
+                      priority={post.id === initialPosts[0]?.id} // Optimize the loading of the first image (LCP)
                     />
                   </div>
                 )}
 
+                {/*Sanitized Content*/}
                 <div className="p-7 flex flex-col flex-grow">
                   <h2 className="text-2xl font-semibold text-slate-900 mb-3 leading-tight"
                       dangerouslySetInnerHTML={{ __html: post.title.rendered }}
@@ -77,7 +82,7 @@ export default function BlogClientWrapper({ initialPosts }: { initialPosts: Post
                       href={`/blog/${post.slug}`} 
                       className="text-sm font-medium text-sky-700 hover:text-sky-900 transition"
                     >
-                      Leer más →
+                      Read more →
                     </Link>
                   </div>
                 </div>
@@ -85,7 +90,7 @@ export default function BlogClientWrapper({ initialPosts }: { initialPosts: Post
             );
           })
         ) : (
-          <p className="text-slate-500 col-span-2 text-lg">No se encontraron artículos.</p>
+          <p className="text-slate-500 col-span-2 text-lg">Unable to found articles.</p>
         )}
       </div>
     </>

@@ -11,13 +11,13 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  // AGREGA ESTA CONFIGURACIÓN:
+  
   images: {
-    //unoptimized: true, //AÑADE ESTO TEMPORALMENTE para local errors
+    //unoptimized: true, //ADD THIS LINE TO DISABLE IMAGE OPTIMIZATION
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'espaciopsicologico.mx', // El dominio de tu WordPress
+        hostname: 'espaciopsicologico.mx', 
       },
     ],
   },
