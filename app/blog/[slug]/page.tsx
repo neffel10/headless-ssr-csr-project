@@ -46,7 +46,7 @@ export default async function PostPage(props: { params: Promise<{ slug: string }
   });
 
   return (
-    <main className="min-h-screen bg-slate-50 py-12 px-6">
+    <main className="min-h-screen bg-dark-600 py-12 px-6">
       <article className="max-w-3xl mx-auto bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
         
       {featuredImage && (

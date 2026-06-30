@@ -24,12 +24,24 @@ export default async function HomePage() {
   const rawPosts: Post[] = await response.json();
 
   // 4. Sanitize the excerpts to prevent XSS attacks
-  const sanitizedPosts = rawPosts.map(post => ({
-  ...post,
-  excerpt: {
-    rendered: sanitizeHtml(post.excerpt.rendered)
-  }
-}));
+  const sanitizedPosts = rawPosts.map(post => {
+
+  // Clean the excerpt to remove all HTML tags, leaving only plain text
+  const cleanExcerpt = sanitizeHtml(post.excerpt.rendered, { allowedTags: [] }); // [] Eliminates all HTML tags, leaving only text
+  // Define a character limit for the excerpt to ensure it doesn't overflow the design
+  const CHARACTER_LIMIT = 300;
+  // Cut the excerpt to the defined character limit and add ellipsis if it exceeds that limit
+  const shortenedExcerpt = cleanExcerpt.length > CHARACTER_LIMIT
+    ? `${cleanExcerpt.substring(0, CHARACTER_LIMIT).trim()}...`
+    : cleanExcerpt;
+
+  return {
+    ...post,
+    excerpt: {
+      rendered: shortenedExcerpt // Return the shortened excerpt for display
+    }
+  };
+});
 
   // 5. Pass the sanitized posts to the client wrapper for rendering and filtering
   return (

@@ -68,9 +68,11 @@ const [filteredPosts, setFilteredPosts] = useState<Post[]>(initialPosts);
 
                 {/*Sanitized Content*/}
                 <div className="p-7 flex flex-col flex-grow">
-                  <h2 className="text-2xl font-semibold text-slate-900 mb-3 leading-tight"
+                  <Link href={`/blog/${post.slug}`} className="group">
+                  <h2 className="text-2xl font-semibold text-slate-900 mb-3 leading-tight group-hover:text-sky-800 transition-colors duration-200"
                       dangerouslySetInnerHTML={{ __html: post.title.rendered }}
                   />
+                  </Link>
                   
                   <div 
                     className="text-slate-700 prose prose-slate prose-sm max-w-none mb-5 flex-grow"
